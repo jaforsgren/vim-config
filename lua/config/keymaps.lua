@@ -33,6 +33,10 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
 -- Select all
 vim.keymap.set("n", "<C-a>", "ggVG", opts)
 
+vim.keymap.set("n", "<leader>e", function()
+  require("neo-tree.command").execute({ toggle = true, position = "float" })
+end, { desc = "Toggle Neo-tree (float)" })
+
 -- display my markdown stuff
 vim.keymap.set("n", "<leader>hh", function()
   local readme_path = vim.fn.stdpath("config") .. "/cheatcheat.md"
@@ -46,53 +50,91 @@ wk.add({
   { "<leader>h", group = "Custom Commands" },
   { "<leader>hk", ":luafile ~/.config/nvim/lua/config/keymaps.lua<CR>", desc = "Reload Keymaps" },
   { "<leader>hr", ":source $MYVIMRC<CR>", desc = "Reload Config" },
+  -- {"<leader>hc": "':0,$ y", desc= "yank entire file"},
   { "<leader>hm", ":messages", desc = "show messages" },
 })
 
 -- DAP stuff
-local dap = require("dap")
-local vscode = require("dap.ext.vscode")
+-- local dap = require("dap")
+-- local dapui = require("dapui")
+-- local vscode = require("dap.ext.vscode")
+-- local dapwidgets = require("dap.ui.widgets")
+-- --
 
-if vim.fn.filereadable(".vscode/launch.json") then
-  require("dap.ext.vscode").load_launchjs(nil, { cpptools = { "c", "cpp" } })
-end
+-- wk.
+--       vscode.load_launchjs(nil, {})
+--       print("Loaded VS Code launch.json configurations")
+--     end,
+--     desc = "Load Debug Config from launch.json",
+--   },
+--   {
+--     "<leader>dv",
+--     function()
+--       vscode.load_launchjs(nil, {})
+--       print("Loaded VS Code launch.json configurations")
+--       dap.continue()
+--     end,
+--     desc = "Load Debug Config from launch.json",
+--   },
+--   {
+--     "<leader>dB",
+--     function()
+--       dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+--     end,
+--     desc = "Set Conditional Breakpoint",
+--   },
+--   {
+--     "<leader>dh",
+--     function()
+--       dapwidgets.hover(nil, { use_visual_selection = true })
+--     end,
+--     desc = "hover widgets",
+--   },
+--   { "<leader>dh", dapwidgets.preview, desc = "preview widgets" },
+--   {
+--     "<leader>dc",
+--     function()
+--       dapwidgets.float_element("console")
+--     end,
+--     desc = "float console",
+--   },
+--
+--   {
+--     "<leader>dw",
+--     function()
+--       dapwidgets.centered_float(dapwidgets.scopes)
+--     end,
+--     desc = "float scopes",
+--   },
+--   {
+--     "<leader>de",
+--     function()
+--       dapwidgets.centered_float(dapwidgets.expression)
+--     end,
+--     desc = "float expression",
+--   },
+--   {
+--     "<leader>df",
+--     function()
+--       dapwidgets.centered_float(dapwidgets.frames)
+--     end,
+--     desc = "float frames",
+--   },
+-- })
 
-wk.add({
-  { "<F5>", dap.continue, desc = "Start/Continue Debugging" },
-  { "<F10>", dap.step_over, desc = "Step Over" },
-  { "<F11>", dap.step_into, desc = "Step Into" },
-  { "<F12>", dap.step_out, desc = "Step Out" },
-  { "<leader>db", dap.toggle_breakpoint, desc = "Toggle Breakpoint" },
-  { "<leader>dl", dap.run_last, desc = "Run Last Debug Session" },
-  { "<leader>dr", dap.repl.open, desc = "Open REPL" },
-  { "<leader>dt", dap.terminate, desc = "Terminate Debug Session" },
-  {
-    "<leader>dv",
-    function()
-      vscode.load_launchjs(nil, {})
-      print("Loaded VS Code launch.json configurations")
-    end,
-    desc = "Load Debug Config from launch.json",
-  },
-  {
-    "<leader>dv",
-    function()
-      vscode.load_launchjs(nil, {})
-      print("Loaded VS Code launch.json configurations")
-      dap.continue()
-    end,
-    desc = "Load Debug Config from launch.json",
-  },
-  {
-    "<leader>dB",
-    function()
-      dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-    end,
-    desc = "Set Conditional Breakpoint",
-  },
-  -- { "du", require("dapui").toggle, desc = "Toggle Debug UI" },
-})
-
--- paste over currently selected text without yanking it
--- vim.keymap.set("v", "p", '"_dp')
--- vim.keymap.set("v", "P", '"_dP')§:
+--   -- configure widgets
+--
+--       local widgets = require('dap.ui.widgets')
+--
+--       -- set scopes as right pane
+--       local scopes = widgets.sidebar(widgets.scopes, {}, 'vsplit')
+--
+--       -- set frames as bottom pane
+--       local frames = widgets.sidebar(widgets.frames, {height = 10}, 'belowright split')
+--
+--       vim.keymap.set('n', '<leader>dj', dap.continue)
+--       vim.keymap.set('n', '<leader>dm', dap.step_over)
+--       vim.keymap.set('n', '<leader>di', dap.step_into)
+--       vim.keymap.set('n', '<leader>dk', dap.toggle_breakpoint)
+--       vim.keymap.set('n', '<leader>dn', dap.clear_breakpoints)
+--       vim.keymap.set('n', '<leader>dt', dap.terminate)
