@@ -14,6 +14,16 @@ vim.keymap.set("n", "<C-p>", function()
   })
 end, { desc = "List functions, methods, and classes via LSP" })
 
+local builtin = require("telescope.builtin")
+vim.keymap.set("n", "<leader>bb", ":Telescope buffers<CR>", { desc = "Telescope buffers" })
+
+-- vim.keymap.set("n", "<C-o>", ":Telescope buffers<CR>")
+-- vim.keymap.set("n", "<C-k>", ":Neotree reveal<CR>")
+
+-- vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "Telescope lsp lsp_references" })
+-- vim.keymap.set("n", "<leader>fd", builtin.lsp_definitions, { desc = "Telescope lsp lsp_references" })
+--
+
 -- Keep cursor centered when scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
 vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
@@ -36,6 +46,10 @@ vim.keymap.set("n", "<C-a>", "ggVG", opts)
 vim.keymap.set("n", "<leader>e", function()
   require("neo-tree.command").execute({ toggle = true, position = "float" })
 end, { desc = "Toggle Neo-tree (float)" })
+--
+vim.keymap.set("n", "<leader>a", function()
+  require("neo-tree.command").execute({ toggle = true, position = "float" })
+end, { desc = "Toggle Neo-tree (float)" })
 
 -- display my markdown stuff
 vim.keymap.set("n", "<leader>hh", function()
@@ -48,93 +62,15 @@ end, { desc = "Display cheatcheat in split above buffer" })
 local wk = require("which-key")
 wk.add({
   { "<leader>h", group = "Custom Commands" },
+  { "<leader>bb", ":Telescope buffers<CR>", desc = "list buffers" },
   { "<leader>hk", ":luafile ~/.config/nvim/lua/config/keymaps.lua<CR>", desc = "Reload Keymaps" },
   { "<leader>hr", ":source $MYVIMRC<CR>", desc = "Reload Config" },
   -- {"<leader>hc": "':0,$ y", desc= "yank entire file"},
   { "<leader>hm", ":messages", desc = "show messages" },
+  {
+    "<leader>fo",
+    require("neo-tree.command").execute({ toggle = true, position = "float", action = "reveal" }),
+    desc = "Neotree reveal file",
+  },
+  { "<leader>a", ":Neotree reveal<CR>", desc = "Explorer NeoTree (reveal)" },
 })
-
--- DAP stuff
--- local dap = require("dap")
--- local dapui = require("dapui")
--- local vscode = require("dap.ext.vscode")
--- local dapwidgets = require("dap.ui.widgets")
--- --
-
--- wk.
---       vscode.load_launchjs(nil, {})
---       print("Loaded VS Code launch.json configurations")
---     end,
---     desc = "Load Debug Config from launch.json",
---   },
---   {
---     "<leader>dv",
---     function()
---       vscode.load_launchjs(nil, {})
---       print("Loaded VS Code launch.json configurations")
---       dap.continue()
---     end,
---     desc = "Load Debug Config from launch.json",
---   },
---   {
---     "<leader>dB",
---     function()
---       dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
---     end,
---     desc = "Set Conditional Breakpoint",
---   },
---   {
---     "<leader>dh",
---     function()
---       dapwidgets.hover(nil, { use_visual_selection = true })
---     end,
---     desc = "hover widgets",
---   },
---   { "<leader>dh", dapwidgets.preview, desc = "preview widgets" },
---   {
---     "<leader>dc",
---     function()
---       dapwidgets.float_element("console")
---     end,
---     desc = "float console",
---   },
---
---   {
---     "<leader>dw",
---     function()
---       dapwidgets.centered_float(dapwidgets.scopes)
---     end,
---     desc = "float scopes",
---   },
---   {
---     "<leader>de",
---     function()
---       dapwidgets.centered_float(dapwidgets.expression)
---     end,
---     desc = "float expression",
---   },
---   {
---     "<leader>df",
---     function()
---       dapwidgets.centered_float(dapwidgets.frames)
---     end,
---     desc = "float frames",
---   },
--- })
-
---   -- configure widgets
---
---       local widgets = require('dap.ui.widgets')
---
---       -- set scopes as right pane
---       local scopes = widgets.sidebar(widgets.scopes, {}, 'vsplit')
---
---       -- set frames as bottom pane
---       local frames = widgets.sidebar(widgets.frames, {height = 10}, 'belowright split')
---
---       vim.keymap.set('n', '<leader>dj', dap.continue)
---       vim.keymap.set('n', '<leader>dm', dap.step_over)
---       vim.keymap.set('n', '<leader>di', dap.step_into)
---       vim.keymap.set('n', '<leader>dk', dap.toggle_breakpoint)
---       vim.keymap.set('n', '<leader>dn', dap.clear_breakpoints)
---       vim.keymap.set('n', '<leader>dt', dap.terminate)

@@ -1,7 +1,7 @@
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "jose-elias-alvarez/typescript.nvim" },
+    dependencies = { "jose-elias-alvarez/typescript.nvim", "nvim-lua/plenary.nvim" },
     config = function()
       local ts = require("typescript")
 
@@ -16,12 +16,7 @@ return {
           end,
         },
       })
-    end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
+
       require("lspconfig").pylsp.setup({
         on_attach = function(client, bufnr)
           local bufopts = { noremap = true, silent = true, buffer = bufnr }
