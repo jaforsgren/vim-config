@@ -265,7 +265,6 @@ return {
       --  - ci'  - [C]hange [I]nside [']quote
       require("mini.ai").setup({ n_lines = 500 })
 
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
@@ -315,4 +314,28 @@ return {
       })
     end,
   },
+  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" }, -- better markdown preview
+  {
+    "s1n7ax/nvim-search-and-replace",
+    config = function()
+      local wk = require("which-key")
+      wk.add({ "<leader>r", group = "search and replace multiple files" })
+
+      require("nvim-search-and-replace").setup({
+        ignore = { "**/node_modules/**", "**/.git/**", "**/.gitignore", "**/.gitmodules", "build/**" },
+        update_changes = false,
+        replace_keymap = "<leader>rr",
+        replace_all_keymap = "<leader>rR",
+        replace_and_save_keymap = "<leader>ru",
+        replace_all_and_save_keymap = "<leader>rU",
+      })
+    end,
+  },
+  -- {
+  --   -- "m4xshen/hardtime.nvim",
+  --   dependencies = { "MunifTanjim/nui.nvim" },
+  --   opts = {},
+  -- }, -- Establish good command workflow and quit bad habit.
+  { "seandewar/killersheep.nvim" }, -- killer sheep game
+  { "ThePrimeagen/vim-be-good" }, -- collection of vim games to practise skills on
 }
