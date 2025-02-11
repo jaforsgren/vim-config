@@ -1,6 +1,9 @@
 # code
 
 - gc - comment
+- - - search word under cursor
+- o - insert on new row
+- x - delete char
 
 ---
 
@@ -22,13 +25,6 @@
 - 5gg or 5G - go to line 5
 
 - opt + 3 - find word under marker
-
----
-
-## Marks
-
-- :marks - List of marks
-- ma - set current position for mark A
 
 ---
 
