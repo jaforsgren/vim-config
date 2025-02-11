@@ -17,6 +17,7 @@ local plugins = {
       require("telescope").setup({
         defaults = {
           file_ignore_patterns = { "%.git/", "^node_modules/" }, -- Ignore `.git/` but not other hidden files
+          position = "float",
           pickers = {
             find_files = {
               hidden = true, -- Include hidden files by default
@@ -32,9 +33,49 @@ local plugins = {
       })
       -- Load fzf extension if installed
       pcall(require("telescope").load_extension, "fzf")
+      vim.cmd([[nnoremap <C-b> :Telescope buffers]])
       vim.keymap.set("n", "<M-h>", function()
         require("telescope.builtin").find_files({ hidden = true })
       end, { desc = "Find files (including hidden)" })
+    end,
+  },
+  {
+    "FabianWirth/search.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+
+    config = function()
+      local search = require("search")
+      vim.keymap.set("n", "<C-o>", search.open)
+      vim.keymap.set("n", "<leader><leader>", search.open)
+
+      local builtin = require("telescope.builtin")
+      require("search").setup({
+        mappings = { -- optional: configure the mappings for switching tabs (will be set in normal and insert mode(!))
+          next = "<Tab>",
+          prev = "<S-Tab>",
+        },
+        --   tabs = {
+        --   { name = "Branches", tele_func = builtin.},
+        --   { name = "Commits", tele_func = builtin.gitt_commits },
+        --   { name = "Stashes", tele_func = builtin.git_stash },
+        -- }
+        append_tabs = { -- append_tabs will add the provided tabs to the default ones
+          { name = "buffers", tele_func = builtin.buffers },
+          {
+            "Commits", -- or name = "Commits"
+            builtin.git_commits, -- or tele_func = require('telescope.builtin').git_commits
+          },
+          { name = "Branches", tele_func = builtin.git_branches },
+          { name = "Stashes", tele_func = builtin.git_stash },
+
+          { name = "All Files", tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
+          -- {
+          --   name = "functions",
+          --   tele_func = builtin.lsp_document_symbols,
+          --   tele_opts = { symbols = { "Function", "Method", "Class" } },
+          -- },
+        },
+      })
     end,
   },
   {
@@ -55,6 +96,8 @@ local plugins = {
           },
         },
       })
+      -- vim.keymap.set("n", "<c-e>", ":Neotree reveal", {})
+      vim.cmd([[nnoremap <C-e> :Neotree reveal]])
     end,
   },
 }
