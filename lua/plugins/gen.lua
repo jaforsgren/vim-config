@@ -1,10 +1,3 @@
-function gen.get_comment()
-  local line = vim.api.nvim_get_current_line()
-  local comment_pattern = "^%s*--%s*(.-)%s*$"
-  local match = line:match(comment_pattern)
-  return match or ""
-end
-
 return {
   {
     "David-Kunz/gen.nvim",
@@ -48,6 +41,13 @@ return {
       local gen = require("gen")
       gen.setup(opts)
 
+      function gen.get_comment()
+        local line = vim.api.nvim_get_current_line()
+        local comment_pattern = "^%s*--%s*(.-)%s*$"
+        local match = line:match(comment_pattern)
+        return match or ""
+      end
+
       gen.prompts["Elaborate text"] = {
         prompt = "Elaborate the following text:\n$text",
         replace = true,
@@ -66,7 +66,7 @@ return {
         prompt = "Refactor the following code to make it more efficient and readable:\n$text",
       }
 
-      gen.prompts["Elaborate text"] = {
+      gen.prompts["Code from Comment"] = {
         prompt = "As a pro programmer, implement this:\n" .. gen.get_comment() .. "\n$text",
         replace = true,
       }
