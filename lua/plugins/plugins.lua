@@ -129,8 +129,9 @@ local plugins = {
 
         collections = {
           git = {
-            initial_tab = 2, -- Git Commits
+            initial_tab = 1, -- Git Stashes
             tabs = {
+              { name = "Stashes", tele_func = builtin.git_status },
               { name = "Branches", tele_func = builtin.git_branches },
               { name = "Commits", tele_func = builtin.git_commits },
               { name = "Stashes", tele_func = builtin.git_stash },

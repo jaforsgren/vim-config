@@ -45,11 +45,15 @@ vim.keymap.set("n", "<leader>hh", function()
   vim.cmd("setlocal buftype=nofile noswapfile")
 end, { desc = "Display cheatcheat in split above buffer" })
 
+vim.keymap.set("n", "<leader>T", ":Telescope<CR>")
+
 -- Create a group description for <leader>h
 local wk = require("which-key")
 wk.add({
+  { "<leader>A", ":Telescope", "Telescope" },
   { "<leader>h", group = "Custom Commands" },
   { "<leader>bb", ":Telescope buffers<CR>", desc = "list buffers" },
+  { "<leader>ht", ":Telescope<CR>", desc = "Telescope" },
   { "<leader>hk", ":luafile ~/.config/nvim/lua/config/keymaps.lua<CR>", desc = "Reload Keymaps" },
   { "<leader>hr", ":source $MYVIMRC<CR>", desc = "Reload Config" },
   { "<leader>hc", ":Cheatsheet", desc = "Cheatsheet" },
