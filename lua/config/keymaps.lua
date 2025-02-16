@@ -1,28 +1,15 @@
 -- Keymaps are automatically loaded on the VeryLazy event
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
---
---
--- nnoremap <F5> :buffers<CR>:buffer<Space>
---
---
 
 -- CTRL + P usign tresitter and lsp symbols to list functions methods and classes
-vim.keymap.set("n", "<C-p>", function()
-  require("telescope.builtin").lsp_document_symbols({
-    symbols = { "Function", "Method", "Class" },
-  })
-end, { desc = "List functions, methods, and classes via LSP" })
+-- vim.keymap.set("n", "<C-p>", function()
+--   require("telescope.builtin").lsp_document_symbols({
+--     symbols = { "Function", "Method", "Class" },
+--   })
+-- end, { desc = "List functions, methods, and classes via LSP" })
 
-local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>bb", ":Telescope buffers<CR>", { desc = "Telescope buffers" })
-
--- vim.keymap.set("n", "<C-o>", ":Telescope buffers<CR>")
--- vim.keymap.set("n", "<C-k>", ":Neotree reveal<CR>")
-
--- vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { desc = "Telescope lsp lsp_references" })
--- vim.keymap.set("n", "<leader>fd", builtin.lsp_definitions, { desc = "Telescope lsp lsp_references" })
---
 
 -- Keep cursor centered when scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
