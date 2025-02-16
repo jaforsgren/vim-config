@@ -64,4 +64,13 @@ return {
     },
   },
   { "marko-cerovac/material.nvim" },
+  {
+    "sudormrfbin/cheatsheet.nvim",
+
+    requires = {
+      { "nvim-telescope/telescope.nvim" },
+      { "nvim-lua/popup.nvim" },
+      { "nvim-lua/plenary.nvim" },
+    },
+  },
 }

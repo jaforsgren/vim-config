@@ -52,6 +52,7 @@ wk.add({
   { "<leader>bb", ":Telescope buffers<CR>", desc = "list buffers" },
   { "<leader>hk", ":luafile ~/.config/nvim/lua/config/keymaps.lua<CR>", desc = "Reload Keymaps" },
   { "<leader>hr", ":source $MYVIMRC<CR>", desc = "Reload Config" },
+  { "<leader>hc", ":Cheatsheet", desc = "Cheatsheet" },
   -- {"<leader>hc": "':0,$ y", desc= "yank entire file"},
   { "<leader>hm", ":messages", desc = "show messages" },
   {
