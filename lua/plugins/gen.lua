@@ -67,16 +67,23 @@ return {
       }
 
       gen.prompts["Code from Comment"] = {
-        prompt = "As a pro programmer, implement this:\n" .. gen.get_comment() .. "\n$text",
+        prompt = "As a pro programmer, implement this:\n"
+          .. gen.get_comment()
+          .. "\n$text",
         replace = true,
       }
 
       local wk = require("which-key")
+      wk.add({ "<leader>C", group = "Gen Chat" })
       wk.add({
-        { "<leader>cx", gen.select_model, desc = "(Gen) change model" },
-        { "<leader>cc", "<cmd>Gen<cr>", desc = "(Gen) Toggle Chat" },
-        { "<leader>cr", gen.retry, desc = "(Gen) Retry last prompt" },
-        { "<leader>ca", gen.accept, desc = "(Gen) Accept and replace selection with response" },
+        { "<leader>Cx", gen.select_model, desc = "(Gen) change model" },
+        { "<leader>Cc", "<cmd>Gen<cr>", desc = "(Gen) Toggle Chat" },
+        { "<leader>Cr", gen.retry, desc = "(Gen) Retry last prompt" },
+        {
+          "<leader>Ca",
+          gen.accept,
+          desc = "(Gen) Accept and replace selection with response",
+        },
       })
     end,
   },

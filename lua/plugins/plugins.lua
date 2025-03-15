@@ -99,11 +99,23 @@ local plugins = {
 
         append_tabs = { -- append_tabs will add the provided tabs to the default ones
           { name = "buffers", tele_func = builtin.buffers },
-          { name = "All Files", tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
-          { name = "Quickfix", tele_func = has_quickfixlist() and builtin.quickfix or nil },
+          { name = "marks", tele_func = builtin.marks },
+
+          {
+            name = "All Files",
+            tele_func = builtin.find_files,
+            tele_opts = { no_ignore = true, hidden = true },
+          },
+          {
+            name = "Quickfix",
+            tele_func = has_quickfixlist() and builtin.quickfix or nil,
+          },
 
           -- { name = "Quickfix", tele_func = builtin.quickfix },
-          { name = "Quickfix Hist", tele_func = has_quickfixlist() and builtin.quickfix_history or nil },
+          {
+            name = "Quickfix Hist",
+            tele_func = has_quickfixlist() and builtin.quickfix_history or nil,
+          },
         },
 
         collections = {
@@ -124,24 +136,41 @@ local plugins = {
                 tele_func = builtin.lsp_document_symbols,
                 tele_opts = { symbols = { "Function", "Method", "Class" } },
               },
-              -- { name = "References", tele_func = builtin.lsp_references },
+              { name = "References", tele_func = builtin.lsp_references },
               {
-                name = "Implementations",
-                -- tele_func = lsp_implementations,
-                tele_func = has_lsp_implementations() and builtin.lsp_implementations or nil,
+                name = "Doc Symbols",
+                tele_func = builtin.lsp_document_symbols,
               },
-              {
-                name = "Definitions",
-                tele_func = has_lsp_definitions() and builtin.lsp_definitions or nil,
-                -- tele_func = builtin.lsp_definitions,
-              },
-              {
-                name = "Type Definitions",
-                -- tele_func = builtin.lsp_document_symbols,
-                tele_func = has_lsp_type_definitions() and builtin.lsp_type_definitions or nil,
-              },
+              -- {
+              --   name = "Workspace Symbols",
+              --   tele_func = builtin.lsp_workspace_symbols,
+              -- },
+              -- {
+              --   name = "Implementations",
+              --   -- tele_func = lsp_implementations,
+              --   tele_func = has_lsp_implementations()
+              --       and builtin.lsp_implementations
+              --     or nil,
+              -- },
+              -- {
+              --   name = "Definitions",
+              --   tele_func = has_lsp_definitions() and builtin.lsp_definitions
+              --     or nil,
+              --   -- tele_func = builtin.lsp_definitions,
+              -- },
+              -- {
+              --   name = "Type Definitions",
+              --   -- tele_func = builtin.lsp_document_symbols,
+              --   tele_func = has_lsp_type_definitions()
+              --       and builtin.lsp_type_definitions
+              --     or nil,
+              -- },
 
-              { name = "All Files", tele_func = builtin.find_files, tele_opts = { no_ignore = true, hidden = true } },
+              {
+                name = "All Files",
+                tele_func = builtin.find_files,
+                tele_opts = { no_ignore = true, hidden = true },
+              },
             },
           },
         },

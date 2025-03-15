@@ -9,7 +9,12 @@
 --   })
 -- end, { desc = "List functions, methods, and classes via LSP" })
 
-vim.keymap.set("n", "<leader>bb", ":Telescope buffers<CR>", { desc = "Telescope buffers" })
+vim.keymap.set(
+  "n",
+  "<leader>bb",
+  ":Telescope buffers<CR>",
+  { desc = "Telescope buffers" }
+)
 
 -- Keep cursor centered when scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
@@ -45,22 +50,53 @@ vim.keymap.set("n", "<leader>hh", function()
   vim.cmd("setlocal buftype=nofile noswapfile")
 end, { desc = "Display cheatcheat in split above buffer" })
 
-vim.keymap.set("n", "<leader>T", ":Telescope<CR>")
+local wk = require("which-key")
+
+-- Telescope kemaps
+
+-- vim.keymap.set("n", "<leader>T", ":Telescope<CR>")
 
 -- Create a group description for <leader>h
-local wk = require("which-key")
+wk.add({
+  { "<leader>T", group = "Telescope" },
+  { "<leader>Tb", ":Telescope buffers<CR>", desc = "list buffers" },
+  { "<leader>TT", ":Telescope<CR>", desc = "Telescope" },
+  {
+    "<leader>Ts",
+    ":Telescope lsp_document_symbols<CR>",
+    desc = "Document Symbols",
+  },
+  {
+    "<leader>TS",
+    ":Telescope lsp_workspace_symbol<CR>",
+    desc = "WorkSpace Symbols",
+  },
+  { "<leader>Tr", ":Telescope lsp_references<CR>", desc = "lsp_references" },
+})
+
+vim.keymap.set("n", "<C-B>", ":Telescope buffers<CR>")
+vim.keymap.set("n", "<C-S>", ":Telescope lsp_document_symbols<CR>")
+vim.keymap.set("n", "<C-R>", ":Telescope lsp_references<CR>")
+
+-- Create a group description for <leader>h
 wk.add({
   { "<leader>h", group = "Custom Commands" },
-  { "<leader>bb", ":Telescope buffers<CR>", desc = "list buffers" },
-  { "<leader>ht", ":Telescope<CR>", desc = "Telescope" },
-  { "<leader>hk", ":luafile ~/.config/nvim/lua/config/keymaps.lua<CR>", desc = "Reload Keymaps" },
+  {
+    "<leader>hk",
+    ":luafile ~/.config/nvim/lua/config/keymaps.lua<CR>",
+    desc = "Reload Keymaps",
+  },
   { "<leader>hr", ":source $MYVIMRC<CR>", desc = "Reload Config" },
   { "<leader>hc", ":Cheatsheet", desc = "Cheatsheet" },
   -- {"<leader>hc": "':0,$ y", desc= "yank entire file"},
   { "<leader>hm", ":messages", desc = "show messages" },
   {
     "<leader>fo",
-    require("neo-tree.command").execute({ toggle = true, position = "float", action = "reveal" }),
+    require("neo-tree.command").execute({
+      toggle = true,
+      position = "float",
+      action = "reveal",
+    }),
     desc = "Neotree reveal file",
   },
   { "<leader>a", ":Neotree reveal<CR>", desc = "Explorer NeoTree (reveal)" },
