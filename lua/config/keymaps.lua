@@ -50,7 +50,6 @@ vim.keymap.set("n", "<leader>T", ":Telescope<CR>")
 -- Create a group description for <leader>h
 local wk = require("which-key")
 wk.add({
-  { "<leader>A", ":Telescope", "Telescope" },
   { "<leader>h", group = "Custom Commands" },
   { "<leader>bb", ":Telescope buffers<CR>", desc = "list buffers" },
   { "<leader>ht", ":Telescope<CR>", desc = "Telescope" },

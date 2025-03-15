@@ -46,28 +46,7 @@ local plugins = {
     config = function()
       local search = require("search")
 
-      -- vim.keymap.set("n", "<leader><leader>", ))
-
       local builtin = require("telescope.builtin")
-
-      -- local function safe_telescope_call(tele_func, tele_opts)
-      --   return function()
-      --     -- local ok, result = pcall(tele_func, tele_opts or {})
-      --     local ok = false
-      --     if not ok then
-      --       vim.notify("!!!!!! Telescope call failed: " .. result, vim.log.levels.WARN)
-      --
-      --       -- Return an empty picker so Telescope still shows something
-      --       require("telescope.pickers")
-      --         .new({}, {
-      --           prompt_title = "No results",
-      --           finder = require("telescope.finders").new_table({ results = {} }),
-      --           sorter = require("telescope.config").values.generic_sorter({}),
-      --         })
-      --         :find()
-      --     end
-      --   end
-      -- end
 
       local function has_quickfixlist()
         local qflist = vim.fn.getqflist()
