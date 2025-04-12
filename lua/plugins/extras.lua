@@ -162,7 +162,14 @@ return {
     opts = {
       char = "┊",
       -- char = "│",
-      filetype_exclude = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy" },
+      filetype_exclude = {
+        "help",
+        "alpha",
+        "dashboard",
+        "neo-tree",
+        "Trouble",
+        "lazy",
+      },
       show_trailing_blankline_indent = false,
       show_current_context = false,
     },
@@ -338,7 +345,13 @@ return {
       wk.add({ "<leader>r", group = "search and replace multiple files" })
 
       require("nvim-search-and-replace").setup({
-        ignore = { "**/node_modules/**", "**/.git/**", "**/.gitignore", "**/.gitmodules", "build/**" },
+        ignore = {
+          "**/node_modules/**",
+          "**/.git/**",
+          "**/.gitignore",
+          "**/.gitmodules",
+          "build/**",
+        },
         update_changes = false,
         replace_keymap = "<leader>rr",
         replace_all_keymap = "<leader>rR",
@@ -354,4 +367,52 @@ return {
   -- }, -- Establish good command workflow and quit bad habit.
   { "seandewar/killersheep.nvim" }, -- killer sheep game
   { "ThePrimeagen/vim-be-good" }, -- collection of vim games to practise skills on
+
+  -- inssert logs
+  {
+    "andrewferrier/debugprint.nvim",
+
+    -- opts = { … },
+
+    dependencies = {
+      "echasnovski/mini.nvim", -- Needed for line highlighting (optional)
+    },
+
+    lazy = false, -- Required to make line highlighting work before debugprint is first used
+    version = "*", -- Remove if you DON'T want to use the stable version
+    opts = {
+      keymaps = {
+        normal = {
+          plain_below = "g?p",
+          plain_above = "g?P",
+          variable_below = "g?v",
+          variable_above = "g?V",
+          variable_below_alwaysprompt = "",
+          variable_above_alwaysprompt = "",
+          surround_plain = "g?sp",
+          surround_variable = "g?sv",
+          surround_variable_alwaysprompt = "",
+          textobj_below = "g?o",
+          textobj_above = "g?O",
+          textobj_surround = "g?so",
+          toggle_comment_debug_prints = "",
+          delete_debug_prints = "",
+        },
+        insert = {
+          plain = "<C-G>p",
+          variable = "<C-G>v",
+        },
+        visual = {
+          variable_below = "g?v",
+          variable_above = "g?V",
+        },
+      },
+      commands = {
+        toggle_comment_debug_prints = "ToggleCommentDebugPrints",
+        delete_debug_prints = "DeleteDebugPrints",
+        reset_debug_prints_counter = "ResetDebugPrintsCounter",
+      },
+      -- … Other options
+    },
+  },
 }
