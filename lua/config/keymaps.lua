@@ -29,11 +29,8 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
 -- Move selected line / block of text in visual mode
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
-
--- Select all
-vim.keymap.set("n", "<C-a>", "ggVG", opts)
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
 
 vim.keymap.set("n", "<leader>e", function()
   require("neo-tree.command").execute({ toggle = true, position = "float" })
@@ -53,9 +50,6 @@ end, { desc = "Display cheatcheat in split above buffer" })
 local wk = require("which-key")
 
 -- Telescope kemaps
-
--- vim.keymap.set("n", "<leader>T", ":Telescope<CR>")
-
 -- Create a group description for <leader>h
 wk.add({
   { "<leader>T", group = "Telescope" },
