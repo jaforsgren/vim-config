@@ -1,4 +1,17 @@
 return {
+  -- AUTO COMPLETE
+  {
+    "hrsh7th/nvim-cmp",
+    optional = true,
+    ---@param opts cmp.ConfigSchema
+    opts = function(_, opts)
+      table.insert(opts.sources, 1, {
+        name = "copilot",
+        group_index = 1,
+        priority = 100,
+      })
+    end,
+  },
   -- Autotags
   {
     "windwp/nvim-ts-autotag",
@@ -123,34 +136,6 @@ return {
     },
     -- { "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
     --
-    -- AUTO COMPLETE
-    --
-    { -- optional completion source for require statements and module annotations
-      "hrsh7th/nvim-cmp",
-      dependencies = {
-        "hrsh7th/cmp-nvim-lsp", -- LSP completion source
-        "L3MON4D3/LuaSnip", -- Lua snippets
-        "saadparwaiz1/cmp_luasnip",
-      },
-      opts = function(_, opts)
-        opts.sources = opts.sources or {}
-        table.insert(opts.sources, {
-          name = "lazydev",
-          group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-        })
-        local cmp = require("cmp")
-        cmp.setup({
-          snippet = {
-            expand = function()
-              require("luasnip").lsp_expand(args.body)
-            end,
-          },
-          sources = {
-            { name = "luasnip" },
-          },
-        })
-      end,
-    },
   },
 
   -- Indent guide for Neovim
