@@ -32,11 +32,11 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", opts)
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", opts)
 
-vim.keymap.set("n", "<leader>e", function()
-  require("neo-tree.command").execute({ toggle = true, position = "float" })
-end, { desc = "Toggle Neo-tree (float)" })
+-- vim.keymap.set("n", "<leader>e", function()
+--   require("neo-tree.command").execute({ toggle = true, position = "float" })
+-- end, { desc = "Toggle Neo-tree (float)" })
 --
-vim.keymap.set("n", "<leader>a", function()
+vim.keymap.set("n", "<leader>e", function()
   require("neo-tree.command").execute({ toggle = true, position = "float" })
 end, { desc = "Toggle Neo-tree (float)" })
 
@@ -72,6 +72,10 @@ vim.keymap.set("n", "<C-B>", ":Telescope buffers<CR>")
 vim.keymap.set("n", "<C-S>", ":Telescope lsp_document_symbols<CR>")
 vim.keymap.set("n", "<C-R>", ":Telescope lsp_references<CR>")
 
+wk.register({
+  gi = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Go to Implementation" },
+})
+
 -- Create a group description for <leader>h
 wk.add({
   { "<leader>h", group = "Custom Commands" },
@@ -85,7 +89,7 @@ wk.add({
   -- {"<leader>hc": "':0,$ y", desc= "yank entire file"},
   { "<leader>hm", ":messages", desc = "show messages" },
   {
-    "<leader>fo",
+    "<leader>fe",
     require("neo-tree.command").execute({
       toggle = true,
       position = "float",
@@ -93,5 +97,15 @@ wk.add({
     }),
     desc = "Neotree reveal file",
   },
-  { "<leader>a", ":Neotree reveal<CR>", desc = "Explorer NeoTree (reveal)" },
+  -- { "<leader>a", ":Neotree reveal<CR>", desc = "Explorer NeoTree (reveal)" },
 })
+
+-- start a word replace with the word under the cursor with CTRl + SHIFT + R
+vim.keymap.set("n", "<C-w>", function()
+  local word = vim.fn.expand("<cword>")
+  if word ~= "" then
+    vim.api.nvim_feedkeys(":%s/" .. word .. "/", "n", false)
+  else
+    vim.api.nvim_feedkeys(":%s/", "n", false)
+  end
+end, { desc = "Search and Replace current word" })

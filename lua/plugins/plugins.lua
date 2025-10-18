@@ -97,10 +97,10 @@ local plugins = {
           prev = "<S-Tab>",
         },
 
-        append_tabs = { -- append_tabs will add the provided tabs to the default ones
+        tabs = { -- append_tabs will add the provided tabs to the default ones
           { name = "buffers", tele_func = builtin.buffers },
           { name = "marks", tele_func = builtin.marks },
-
+          { name = "registers", tele_func = builtin.registers },
           {
             name = "All Files",
             tele_func = builtin.find_files,
@@ -131,15 +131,16 @@ local plugins = {
           lsp = {
             initial_tab = 1, -- is_lsp_attached() and 0 or 6, -- Set dynamically
             tabs = {
-              {
-                name = "Methods and functions",
-                tele_func = builtin.lsp_document_symbols,
-                tele_opts = { symbols = { "Function", "Method", "Class" } },
-              },
+
               { name = "References", tele_func = builtin.lsp_references },
               {
                 name = "Doc Symbols",
                 tele_func = builtin.lsp_document_symbols,
+              },
+              {
+                name = "Methods and functions",
+                tele_func = builtin.lsp_document_symbols,
+                tele_opts = { symbols = { "Function", "Method", "Class" } },
               },
               -- {
               --   name = "Workspace Symbols",
@@ -147,7 +148,7 @@ local plugins = {
               -- },
               -- {
               --   name = "Implementations",
-              --   -- tele_func = lsp_implementations,
+              --   tele_func = lsp_implementations,
               --   tele_func = has_lsp_implementations()
               --       and builtin.lsp_implementations
               --     or nil,
@@ -204,7 +205,7 @@ local plugins = {
           },
         },
       })
-      vim.cmd([[nnoremap <C-e> :Neotree reveal]])
+      vim.cmd([[nnoremap <C-e> :Neotree reveal<CR>]])
     end,
   },
 }

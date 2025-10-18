@@ -1,10 +1,12 @@
 return {
   "nvim-neotest/neotest",
   dependencies = {
+    "nvim-neotest/nvim-nio",
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
     "antoinemadec/FixCursorHold.nvim",
     "nvim-neotest/neotest-go",
+    "nvim-neotest/neotest-jest",
   },
   keys = {
     {
@@ -64,7 +66,11 @@ return {
     vim.diagnostic.config({
       virtual_text = {
         format = function(diagnostic)
-          local message = diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+          local message = diagnostic.message
+            :gsub("\n", " ")
+            :gsub("\t", " ")
+            :gsub("%s+", " ")
+            :gsub("^%s+", "")
           return message
         end,
       },
@@ -75,20 +81,32 @@ return {
       -- your neotest config here
       adapters = {
         require("neotest-go"),
+        require("neotest-jest")({
+          jestCommand = "npm test --",
+          jestArguments = function(defaultArguments, context)
+            return defaultArguments
+          end,
+          jestConfigFile = "custom.jest.config.ts",
+          env = { CI = true },
+          cwd = function(path)
+            return vim.fn.getcwd()
+          end,
+          isTestFile = require("neotest-jest.jest-util").defaultIsTestFile,
+        }),
       },
       icons = {
         child_indent = "│",
         child_prefix = "├",
         collapsed = "─",
         expanded = "╮",
-        failed = "✘",
+        failed = "❌",
         final_child_indent = " ",
         final_child_prefix = "╰",
         non_collapsible = "─",
-        passed = "✓",
-        running = "",
+        passed = "✅",
+        running = " ",
         running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
-        skipped = "↓",
+        skipped = "⏭️",
         unknown = "",
       },
       status = {

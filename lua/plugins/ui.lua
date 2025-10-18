@@ -1,4 +1,19 @@
 return {
+  -- {
+  --   "Theo-Steiner/warped.nvim",
+  --     dependencies = {
+  --   {
+  --     "tjdevries/colorbuddy.nvim",
+  --     config = function()
+  --       -- load colorbuddy irst
+  --       require("colorbuddy").colorscheme("default") -- optional, ensures defaults exist
+  --     end,
+  --   },
+  -- },
+  --   config = function()
+  --     require("warped").setup()
+  --   end,
+  -- },
   {
     "folke/noice.nvim",
     opts = {
@@ -7,7 +22,14 @@ return {
       },
     },
   },
-  { "bluz71/vim-moonfly-colors", name = "moonfly", lazy = false, priority = 1000 },
+  { "projekt0n/github-nvim-theme", name = "github-theme" },
+
+  {
+    "bluz71/vim-moonfly-colors",
+    name = "moonfly",
+    lazy = false,
+    priority = 1000,
+  },
   { "nvim-tree/nvim-web-devicons", opts = {} },
   {
     "Mofiqul/adwaita.nvim",
@@ -20,7 +42,11 @@ return {
       vim.g.adwaita_disable_cursorline = false -- to disable cursorline
       vim.g.adwaita_transparent = true -- makes the background transparent
       vim.cmd("colorscheme adwaita")
-      vim.api.nvim_set_hl(0, "TelescopeSelection", { fg = "#ffffff", bg = "#44475a", bold = true })
+      vim.api.nvim_set_hl(
+        0,
+        "TelescopeSelection",
+        { fg = "#ffffff", bg = "#44475a", bold = true }
+      )
     end,
   },
   {

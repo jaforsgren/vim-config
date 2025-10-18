@@ -1,17 +1,17 @@
 return {
   -- AUTO COMPLETE
-  {
-    "hrsh7th/nvim-cmp",
-    optional = true,
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      table.insert(opts.sources, 1, {
-        name = "copilot",
-        group_index = 1,
-        priority = 100,
-      })
-    end,
-  },
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   optional = true,
+  --   ---@param opts cmp.ConfigSchema
+  --   opts = function(_, opts)
+  --     table.insert(opts.sources, 1, {
+  --       name = "copilot",
+  --       group_index = 1,
+  --       priority = 100,
+  --     })
+  --   end,
+  -- },
   -- Autotags
   {
     "windwp/nvim-ts-autotag",
@@ -79,7 +79,7 @@ return {
 
   -- find and replace
   {
-    "windwp/nvim-spectre",
+    "nvim-pack/nvim-spectre",
     enabled = false,
     event = "BufRead",
     keys = {
@@ -263,7 +263,7 @@ return {
   },
 
   {
-    "echasnovski/mini.nvim",
+    "nvim-mini/mini.nvim",
     config = function()
       -- Better Around/Inside textobjects
       --
@@ -293,7 +293,7 @@ return {
   },
 
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     enabled = true,
     opts = {},
     lazy = true,
@@ -360,7 +360,7 @@ return {
     -- opts = { … },
 
     dependencies = {
-      "echasnovski/mini.nvim", -- Needed for line highlighting (optional)
+      "nvim-mini/mini.nvim", -- Needed for line highlighting (optional)
     },
 
     lazy = false, -- Required to make line highlighting work before debugprint is first used

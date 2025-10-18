@@ -1,0 +1,52 @@
+return {
+  -- {
+  --   "folke/trouble.nvim",
+  --   opts = {
+  --     -- settings without a patched font or icons
+  --     icons = false,
+  --     fold_open = "v", -- icon used for open folds
+  --     fold_closed = ">", -- icon used for closed folds
+  --     indent_lines = false, -- add an indent guide below the fold icons
+  --     signs = {
+  --       -- icons / text used for a diagnostic
+  --       error = "E",
+  --       warning = "W",
+  --       hint = "H",
+  --       information = "I",
+  --     },
+  --     use_diagnostic_signs = false, -- enabling this will use the signs defined in your lsp client
+  --   },
+  -- },
+  -- -- {
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   config = function()
+  --     local null_ls = require("null-ls")
+  --
+  --     local root_has_file = function(files)
+  --       return function(utils)
+  --         return utils.root_has_file(files)
+  --       end
+  --     end
+  --
+  --     local eslint_root_files =
+  --       { ".eslintrc", ".eslintrc.js", ".eslintrc.json" }
+  --     local prettier_root_files =
+  --       { ".prettierrc", ".prettierrc.js", ".prettierrc.json" }
+  --     local stylua_root_files = { "stylua.toml", ".stylua.toml" }
+  --     local elm_root_files = { "elm.json" }
+  --
+  --     local opts = {
+  --       eslint_formatting = {
+  --         condition = function(utils)
+  --           local has_eslint = root_has_file(eslint_root_files)(utils)
+  --           local has_prettier = root_has_file(prettier_root_files)(utils)
+  --           return has_eslint and not has_prettier
+  --         end,
+  --       },
+  --       eslint_diagnostics = {
+  --         condition = root_has_file(eslint_root_files),
+  --       },
+  --       prettier_formatting = {
+  --         condition = root_has_file(prettier_root_files),
+  -- }
+}

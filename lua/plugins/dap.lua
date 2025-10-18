@@ -1,6 +1,6 @@
 return {
   -- mason nivm dap
-  "williamboman/mason.nvim",
+  "mason-org/mason.nvim",
   {
     "mfussenegger/nvim-dap",
     dependencies = {
@@ -32,8 +32,14 @@ return {
       local perstbreakpoints = require("persistent-breakpoints.api")
 
       -- Adding symbols for breakpoints and such
-      vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
-      vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define(
+        "DapBreakpoint",
+        { text = "🟥", texthl = "", linehl = "", numhl = "" }
+      )
+      vim.fn.sign_define(
+        "DapStopped",
+        { text = "▶️", texthl = "", linehl = "", numhl = "" }
+      )
 
       wk.add({
         { "<F5>", dap.continue, desc = "Start/Continue Debugging" },
@@ -44,7 +50,11 @@ return {
         { "<leader>di", dap.step_into, desc = "Step Into" },
         { "<leader>do", dap.step_out, desc = "Step Out" },
         { "<leader>dc", dap.continue, desc = "Start/Continue Debugging" },
-        { "<leader>db", perstbreakpoints.toggle_breakpoint, desc = "Toggle Breakpoint" },
+        {
+          "<leader>db",
+          perstbreakpoints.toggle_breakpoint,
+          desc = "Toggle Breakpoint",
+        },
         { "<leader>dB", dap.clear_breakpoints, desc = "Clear All Breakpoints" },
         { "<leader>du", dapui.toggle, desc = "Toggle Dap UI" },
         { "<leader>dl", dap.run_last, desc = "Run Last Debug Session" },
@@ -151,8 +161,14 @@ return {
       local wk = require("which-key")
       wk.add({ "<leader>dt", dapui.toggle, desc = "toggle ui" })
 
-      vim.fn.sign_define("DapBreakpoint", { text = "🟥", texthl = "", linehl = "", numhl = "" })
-      vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define(
+        "DapBreakpoint",
+        { text = "🟥", texthl = "", linehl = "", numhl = "" }
+      )
+      vim.fn.sign_define(
+        "DapStopped",
+        { text = "▶️", texthl = "", linehl = "", numhl = "" }
+      )
     end,
   },
   { "nvim-neotest/nvim-nio", lazy = true },
