@@ -43,8 +43,6 @@ opt.wildmenu = true
 opt.wildmode = "lastused:list:full"
 opt.wrap = false
 
--- require("bootstrap-lazy").setup()
-require("lazy").setup("plugins")
 -- vim.cmd.colorscheme("adwaita")
 vim.cmd([[hi NormalFloat guibg=#18 guifg=#aaaaaa]])
 --

@@ -72,8 +72,8 @@ vim.keymap.set("n", "<C-B>", ":Telescope buffers<CR>")
 vim.keymap.set("n", "<C-S>", ":Telescope lsp_document_symbols<CR>")
 vim.keymap.set("n", "<C-R>", ":Telescope lsp_references<CR>")
 
-wk.register({
-  gi = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Go to Implementation" },
+wk.add({
+  { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Go to Implementation" },
 })
 
 -- Create a group description for <leader>h
