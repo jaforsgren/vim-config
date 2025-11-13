@@ -74,6 +74,22 @@ return {
           },
         },
       })
+
+      -- C#
+      require("lspconfig").omnisharp.setup({
+        on_attach = function(client, bufnr)
+          lspKeySetup(client, bufnr)
+        end,
+        cmd = { "omnisharp" },
+        -- cmd = { "omnisharp", "--languageserver" },
+        settings = {
+          omnisharp = {
+            enableRoslynAnalyzers = true,
+            organizeImportsOnFormat = true,
+            enableEditorConfigSupport = true,
+          },
+        },
+      })
     end,
   },
   {
