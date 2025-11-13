@@ -73,7 +73,11 @@ vim.keymap.set("n", "<C-S>", ":Telescope lsp_document_symbols<CR>")
 vim.keymap.set("n", "<C-R>", ":Telescope lsp_references<CR>")
 
 wk.add({
-  { "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", desc = "Go to Implementation" },
+  {
+    "gi",
+    "<cmd>lua vim.lsp.buf.implementation()<CR>",
+    desc = "Go to Implementation",
+  },
 })
 
 -- Create a group description for <leader>h
@@ -100,7 +104,7 @@ wk.add({
   -- { "<leader>a", ":Neotree reveal<CR>", desc = "Explorer NeoTree (reveal)" },
 })
 
--- start a word replace with the word under the cursor with CTRl + SHIFT + R
+-- start a word replace with the word under the cursor with CTRl + w
 vim.keymap.set("n", "<C-w>", function()
   local word = vim.fn.expand("<cword>")
   if word ~= "" then
@@ -109,3 +113,23 @@ vim.keymap.set("n", "<C-w>", function()
     vim.api.nvim_feedkeys(":%s/", "n", false)
   end
 end, { desc = "Search and Replace current word" })
+
+-- Paste over selection without changing the default register
+vim.keymap.set("v", "p", '"_dP', { desc = "Paste without changing register" })
+
+-- Reselect pasted text
+vim.keymap.set("n", "gp", "`[v`]", { desc = "Reselect pasted text" })
+
+-- Yank relative path of current file (available in all modes)
+vim.keymap.set({ "n", "v", "i" }, "yp", function()
+  local path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", path)
+  print("Relative path copied: " .. path)
+end, { desc = "Copy relative file path" })
+
+-- Yank absolute path of current file (available in all modes)
+vim.keymap.set({ "n", "v", "i" }, "yP", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("Absolute path copied: " .. path)
+end, { desc = "Copy absolute file path" })
