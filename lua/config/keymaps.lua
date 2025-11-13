@@ -50,6 +50,25 @@ end, { desc = "Display cheatcheat in split above buffer" })
 local wk = require("which-key")
 
 -- Telescope kemaps
+-- Override LazyVim's <leader>sg to exclude specific folders
+vim.keymap.set("n", "<leader>sg", function()
+  require("telescope.builtin").live_grep({
+    file_ignore_patterns = { "node_modules/", "%.git/", "bin/" },
+    additional_args = function()
+      return { "--hidden", "--no-ignore" }
+    end,
+  })
+end, { desc = "Grep (exclude node_modules, .git, bin)" })
+
+-- Override LazyVim's <leader><leader> for find files
+vim.keymap.set("n", "<leader><leader>", function()
+  require("telescope.builtin").find_files({
+    file_ignore_patterns = { "node_modules/", "%.git/", "bin/" },
+    hidden = true,
+    no_ignore = true,
+  })
+end, { desc = "Find Files (exclude node_modules, .git, bin)" })
+
 -- Create a group description for <leader>h
 wk.add({
   { "<leader>T", group = "Telescope" },
