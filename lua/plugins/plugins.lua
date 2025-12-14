@@ -197,6 +197,11 @@ local plugins = {
     },
     config = function()
       require("neo-tree").setup({
+        window = {
+          mappings = {
+            ["<Esc>"] = "close_window",
+          },
+        },
         filesystem = {
           filtered_items = {
             visible = true, -- Show hidden files and directories
@@ -205,7 +210,6 @@ local plugins = {
           },
         },
       })
-      vim.cmd([[nnoremap <C-e> :Neotree reveal<CR>]])
     end,
   },
 }

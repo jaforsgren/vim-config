@@ -8,6 +8,8 @@
 --     symbols = { "Function", "Method", "Class" },
 --   })
 -- end, { desc = "List functions, methods, and classes via LSP" })
+-- local opts = { noremap = true, silent = true }
+local opts = { noremap = true, silent = true }
 
 vim.keymap.set(
   "n",
@@ -40,6 +42,14 @@ vim.keymap.set("n", "<leader>e", function()
   require("neo-tree.command").execute({ toggle = true, position = "float" })
 end, { desc = "Toggle Neo-tree (float)" })
 
+vim.keymap.set("n", "<C-e>", function()
+  require("neo-tree.command").execute({
+    action = "focus",
+    position = "float",
+    reveal_file = vim.fn.expand("%:p"),
+  })
+end, { desc = "Toggle Neo-tree (float, reveal current file)" })
+
 -- display my markdown stuff
 vim.keymap.set("n", "<leader>hh", function()
   local readme_path = vim.fn.stdpath("config") .. "/cheatcheat.md"
@@ -51,9 +61,21 @@ local wk = require("which-key")
 
 -- Telescope kemaps
 -- Override LazyVim's <leader>sg to exclude specific folders
+local ignoreList = {
+  "node_modules/",
+  "%.git/",
+  "bin/",
+  "yarn/",
+  "azurite_data/",
+  ".next/",
+  "dist/",
+  "coverage/",
+  "node_modules/",
+}
+
 vim.keymap.set("n", "<leader>sg", function()
   require("telescope.builtin").live_grep({
-    file_ignore_patterns = { "node_modules/", "%.git/", "bin/" },
+    file_ignore_patterns = ignoreList,
     additional_args = function()
       return { "--hidden", "--no-ignore" }
     end,
@@ -63,7 +85,7 @@ end, { desc = "Grep (exclude node_modules, .git, bin)" })
 -- Override LazyVim's <leader><leader> for find files
 vim.keymap.set("n", "<leader><leader>", function()
   require("telescope.builtin").find_files({
-    file_ignore_patterns = { "node_modules/", "%.git/", "bin/" },
+    file_ignore_patterns = ignoreList,
     hidden = true,
     no_ignore = true,
   })
@@ -113,11 +135,13 @@ wk.add({
   { "<leader>hm", ":messages", desc = "show messages" },
   {
     "<leader>fe",
-    require("neo-tree.command").execute({
-      toggle = true,
-      position = "float",
-      action = "reveal",
-    }),
+    function()
+      require("neo-tree.command").execute({
+        toggle = true,
+        position = "float",
+        action = "reveal",
+      })
+    end,
     desc = "Neotree reveal file",
   },
   -- { "<leader>a", ":Neotree reveal<CR>", desc = "Explorer NeoTree (reveal)" },
@@ -152,3 +176,6 @@ vim.keymap.set({ "n", "v", "i" }, "yP", function()
   vim.fn.setreg("+", path)
   print("Absolute path copied: " .. path)
 end, { desc = "Copy absolute file path" })
+
+-- Escape in normal mode acts like :q
+vim.keymap.set("n", "<Esc>", ":q<CR>", { desc = "Quit window" })

@@ -46,3 +46,14 @@ opt.wrap = false
 -- vim.cmd.colorscheme("adwaita")
 vim.cmd([[hi NormalFloat guibg=#18 guifg=#aaaaaa]])
 --
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*.cs",
+--   callback = function()
+--     vim.lsp.buf.format({
+--       async = false, -- synchronous formatting ensures save respects it
+--       filter = function(client)
+--         return client.name == "omnisharp"
+--       end,
+--     })
+--   end,
+-- })
