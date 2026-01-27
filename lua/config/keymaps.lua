@@ -71,6 +71,7 @@ local ignoreList = {
   "dist/",
   "coverage/",
   "node_modules/",
+  "obj/",
 }
 
 vim.keymap.set("n", "<leader>sg", function()
