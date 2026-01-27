@@ -41,7 +41,7 @@ return {
       vim.g.adwaita_darker = true -- for darker version
       vim.g.adwaita_disable_cursorline = false -- to disable cursorline
       vim.g.adwaita_transparent = true -- makes the background transparent
-      vim.cmd("colorscheme adwaita")
+      vim.cmd("colorscheme darkdark")
       vim.api.nvim_set_hl(
         0,
         "TelescopeSelection",
