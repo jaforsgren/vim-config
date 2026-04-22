@@ -57,3 +57,7 @@ vim.cmd([[hi NormalFloat guibg=#18 guifg=#aaaaaa]])
 --     })
 --   end,
 -- })
+--
+--
+
+vim.env.PATH = vim.env.PATH .. ":/usr/local/share/dotnet"

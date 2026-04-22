@@ -1,75 +1,5 @@
 return {
-  -- Mason for language servers / formatters
-  {
-    "mason-org/mason.nvim",
-  },
-
-  {
-    "iabdelkareem/csharp.nvim",
-    dependencies = {
-      "mason-org/mason.nvim", -- Required, automatically installs omnisharp
-      "mfussenegger/nvim-dap",
-      "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
-    },
-    config = function()
-      require("mason").setup() -- Mason setup must run before csharp, only if you want to use omnisharp
-      require("csharp").setup()
-    end,
-  },
-
-  -- LSP config
-   {
-    "Cliffback/netcoredbg-macOS-arm64.nvim",
-    dependencies = { "mfussenegger/nvim-dap" }
-  }
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      local lspKeySetup = function(client, bufnr)
-        local opts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-      end
-
-      -- TypeScript
-      require("typescript").setup({
-        server = {
-          on_attach = lspKeySetup,
-        },
-      })
-
-      -- Go
-      require("lspconfig").gopls.setup({
-        on_attach = lspKeySetup,
-      })
-
-      -- Python
-      require("lspconfig").pylsp.setup({
-        on_attach = lspKeySetup,
-        settings = {
-          pylsp = {
-            plugins = {
-              pyflakes = { enabled = true },
-              pycodestyle = { enabled = true },
-              black = { enabled = true },
-              isort = { enabled = true },
-            },
-          },
-        },
-      })
-
-      -- C# placeholder (actual debug via vsdbg)
-      -- Omnisharp can be added if desired, but we configure DAP separately
-    end,
-  },
-
-  -- DAP for debugging
+  "mason-org/mason.nvim",
   {
     "mfussenegger/nvim-dap",
     dependencies = {
@@ -81,24 +11,22 @@ return {
     config = function()
       local dap = require("dap")
 
-      -- C# adapter
+      -- Set up C# debug adapter
       dap.adapters.coreclr = {
         type = "executable",
         command = os.getenv("HOME") .. "/vsdbg/vsdbg",
         args = { "--interpreter=vscode" },
       }
 
-      -- Go DAP
+      -- Go DAP setup
       require("dap-go").setup()
-
-      -- Virtual text + persistent breakpoints
       require("nvim-dap-virtual-text").setup({})
       vim.g.dap_virtual_text = true
       require("persistent-breakpoints").setup({
         load_breakpoints_event = { "BufReadPost" },
       })
 
-      -- DAP UI
+      -- DAP UI setup
       local dapui = require("dapui")
       dapui.setup()
       local wk = require("which-key")
@@ -138,8 +66,8 @@ return {
       })
     end,
   },
-
-  -- DAP UI layout
+  "jay-babu/mason-nvim-dap.nvim",
+  "mfussenegger/nvim-dap-python",
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap" },
@@ -157,9 +85,6 @@ return {
       },
     },
   },
-
-  "jay-babu/mason-nvim-dap.nvim",
-  "mfussenegger/nvim-dap-python",
   { "nvim-neotest/nvim-nio", lazy = true },
   { "Weissle/persistent-breakpoints.nvim" },
 }

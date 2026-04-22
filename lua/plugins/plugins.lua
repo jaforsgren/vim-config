@@ -16,7 +16,7 @@ local plugins = {
     config = function()
       require("telescope").setup({
         defaults = {
-          file_ignore_patterns = { "%.git/", "^node_modules/" }, -- Ignore `.git/` but not other hidden files
+          file_ignore_patterns = { "%.git/", "^node_modules/", "*.uid" }, -- Ignore `.git/` but not other hidden files
           position = "float",
           pickers = {
             find_files = {
@@ -214,7 +214,7 @@ local plugins = {
   },
 }
 
-table.insert(plugins, require("plugins.dap"))
+-- table.insert(plugins, require("plugins.dap"))
 table.insert(plugins, require("plugins.extras"))
 table.insert(plugins, require("plugins.noice"))
 table.insert(plugins, require("plugins.neotest"))

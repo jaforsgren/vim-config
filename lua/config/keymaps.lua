@@ -62,6 +62,7 @@ local wk = require("which-key")
 -- Telescope kemaps
 -- Override LazyVim's <leader>sg to exclude specific folders
 local ignoreList = {
+  "*.uid",
   "node_modules/",
   "%.git/",
   "bin/",
@@ -72,6 +73,10 @@ local ignoreList = {
   "coverage/",
   "node_modules/",
   "obj/",
+  "_tmp/",
+  ".idea/",
+  ".claude/",
+  "CLAUDE.md",
 }
 
 vim.keymap.set("n", "<leader>sg", function()
