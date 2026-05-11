@@ -60,4 +60,6 @@ vim.cmd([[hi NormalFloat guibg=#18 guifg=#aaaaaa]])
 --
 --
 
-vim.env.PATH = vim.env.PATH .. ":/usr/local/share/dotnet"
+-- vim.env.PATH = vim.env.PATH .. ":/usr/local/share/dotnet"
+vim.env.PATH = vim.env.PATH .. ":/opt/homebrew/opt/dotnet@9/libexec"
+vim.env.DOTNET_ROOT = "/opt/homebrew/opt/dotnet@9/libexec"
