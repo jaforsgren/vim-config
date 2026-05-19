@@ -5,14 +5,8 @@ local lspKeySetup = function(client, bufnr)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "<leader>cA", function()
-    vim.lsp.buf.code_action({
-      apply = true,
-      context = {
-        only = { "source.fixAll" },
-        diagnostics = vim.diagnostic.get(0),
-      },
-    })
-  end, vim.tbl_extend("force", opts, { desc = "Fix all auto-fixable issues" }))
+    vim.lsp.buf.code_action()
+  end, vim.tbl_extend("force", opts, { desc = "Code actions (all)" }))
 end
 
 return {
@@ -59,6 +53,25 @@ return {
               black = { enabled = true },
               isort = { enabled = true },
             },
+          },
+        },
+      })
+
+      -- C# — RoslynExtensionsOptions surfaces StyleCop/analyzer diagnostics
+      require("lspconfig").omnisharp.setup({
+        cmd = { vim.fn.stdpath("data") .. "/mason/bin/OmniSharp" },
+        on_attach = lspKeySetup,
+        enable_roslyn_analyzers = true,
+        organize_imports_on_format = true,
+        enable_import_completion = true,
+        settings = {
+          FormattingOptions = {
+            OrganizeImports = true,
+          },
+          RoslynExtensionsOptions = {
+            EnableAnalyzersSupport = true,
+            EnableImportCompletion = true,
+            AnalyzeOpenDocumentsOnly = false,
           },
         },
       })
