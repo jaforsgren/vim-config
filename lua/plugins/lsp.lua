@@ -5,8 +5,90 @@ local lspKeySetup = function(client, bufnr)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
   vim.keymap.set("n", "<leader>cA", function()
-    vim.lsp.buf.code_action()
-  end, vim.tbl_extend("force", opts, { desc = "Code actions (all)" }))
+    local bufnr = vim.api.nvim_get_current_buf()
+    local errors = vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity.ERROR })
+
+    if #errors == 0 then
+      vim.notify("No errors in buffer", vim.log.levels.INFO)
+      return
+    end
+
+    -- Reverse order so bottom edits don't shift positions for earlier lines
+    table.sort(errors, function(a, b)
+      if a.lnum ~= b.lnum then return a.lnum > b.lnum end
+      return a.col > b.col
+    end)
+
+    local fixed = 0
+    -- Guard against infinite loops if an error has no fixable action
+    local max_iterations = #errors * 2
+
+    local function process_next(iteration)
+      if iteration > max_iterations then
+        vim.notify(("Auto-fixed %d error(s)"):format(fixed), vim.log.levels.INFO)
+        return
+      end
+
+      -- Re-fetch diagnostics each iteration so positions are always fresh
+      local remaining = vim.diagnostic.get(bufnr, { severity = vim.diagnostic.severity.ERROR })
+      if #remaining == 0 then
+        vim.notify(("Auto-fixed %d error(s)"):format(fixed), vim.log.levels.INFO)
+        return
+      end
+
+      -- Take the bottom-most error so edits don't shift positions above
+      table.sort(remaining, function(a, b)
+        if a.lnum ~= b.lnum then return a.lnum > b.lnum end
+        return a.col > b.col
+      end)
+
+      local diag = remaining[1]
+      local lsp_diag = diag.user_data and diag.user_data.lsp or {}
+      local params = {
+        textDocument = { uri = vim.uri_from_bufnr(bufnr) },
+        range = {
+          start = { line = diag.lnum, character = diag.col },
+          ["end"] = { line = diag.end_lnum or diag.lnum, character = diag.end_col or diag.col },
+        },
+        context = { diagnostics = { lsp_diag }, triggerKind = 1 },
+      }
+
+      vim.lsp.buf_request(bufnr, "textDocument/codeAction", params, function(err, result)
+        if err or not result or #result == 0 then
+          vim.notify(("Auto-fixed %d / %d error(s) (remaining have no auto-fix)"):format(fixed, fixed + #remaining), vim.log.levels.INFO)
+          return
+        end
+
+        local action
+        for _, a in ipairs(result) do
+          if a.kind == "quickfix" then
+            action = a
+            break
+          end
+        end
+
+        if not action then
+          vim.notify(("Auto-fixed %d / %d error(s) (remaining have no auto-fix)"):format(fixed, fixed + #remaining), vim.log.levels.INFO)
+          return
+        end
+        if action.edit then
+          vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
+          fixed = fixed + 1
+          process_next(iteration + 1)
+        else
+          vim.lsp.buf_request(bufnr, "codeAction/resolve", action, function(rerr, resolved)
+            if not rerr and resolved and resolved.edit then
+              vim.lsp.util.apply_workspace_edit(resolved.edit, "utf-8")
+              fixed = fixed + 1
+            end
+            process_next(iteration + 1)
+          end)
+        end
+      end)
+    end
+
+    process_next(1)
+  end, vim.tbl_extend("force", opts, { desc = "Auto-fix all single-action errors" }))
 end
 
 return {
