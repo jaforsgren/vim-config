@@ -1,0 +1,17 @@
+local dotnet_root = "/opt/homebrew/opt/dotnet@9/libexec"
+-- local dotnet_root = "/usr/local/share/dotnet"
+
+local sdk_version = "10.0.103" -- change if you upgrade
+
+require("lspconfig").omnisharp.setup({
+  cmd = {
+    "dotnet9",
+    dotnet_root .. "/sdk/" .. sdk_version .. "/Roslyn/bincore/OmniSharp.dll",
+    "--languageserver",
+    "--hostPID",
+    tostring(vim.fn.getpid()),
+  },
+  enable_roslyn_analyzers = true,
+  organize_imports_on_format = true,
+  enable_import_completion = true,
+})

@@ -166,8 +166,13 @@ end, { desc = "Search and Replace current word" })
 -- Paste over selection without changing the default register
 vim.keymap.set("v", "p", '"_dP', { desc = "Paste without changing register" })
 
--- Reselect pasted text
-vim.keymap.set("n", "gp", "`[v`]", { desc = "Reselect pasted text" })
+-- Navigate diagnostics in current buffer
+vim.keymap.set("n", "gp", function()
+  vim.diagnostic.goto_next({ bufnr = 0 })
+end, { desc = "Next diagnostic in buffer" })
+vim.keymap.set("n", "gP", function()
+  vim.diagnostic.goto_prev({ bufnr = 0 })
+end, { desc = "Previous diagnostic in buffer" })
 
 -- Yank relative path of current file (available in all modes)
 vim.keymap.set({ "n", "v", "i" }, "yp", function()

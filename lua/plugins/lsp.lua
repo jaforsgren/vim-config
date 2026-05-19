@@ -4,6 +4,15 @@ local lspKeySetup = function(client, bufnr)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+  vim.keymap.set("n", "<leader>cA", function()
+    vim.lsp.buf.code_action({
+      apply = true,
+      context = {
+        only = { "source.fixAll" },
+        diagnostics = vim.diagnostic.get(0),
+      },
+    })
+  end, vim.tbl_extend("force", opts, { desc = "Fix all auto-fixable issues" }))
 end
 
 return {
