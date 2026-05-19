@@ -61,5 +61,20 @@ vim.cmd([[hi NormalFloat guibg=#18 guifg=#aaaaaa]])
 --
 
 -- vim.env.PATH = vim.env.PATH .. ":/usr/local/share/dotnet"
-vim.env.PATH = vim.env.PATH .. ":/opt/homebrew/opt/dotnet@9/libexec"
 vim.env.DOTNET_ROOT = "/opt/homebrew/opt/dotnet@9/libexec"
+vim.env.DOTNET_MULTILEVEL_LOOKUP = "0"
+vim.env.PATH = "/opt/homebrew/opt/dotnet@9/libexec:" .. vim.env.PATH
+
+vim.lsp.enable("omnisharp")
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  pattern = "*.cs",
+  callback = function(args)
+    local opts = { noremap = true, silent = true, buffer = args.buf }
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+  end,
+})

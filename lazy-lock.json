@@ -64,6 +64,7 @@
   "neotest-phpunit": { "branch": "main", "commit": "eb2f3d1e1b07cfaa59d4da9edde0cef1c84e4958" },
   "neotest-python": { "branch": "master", "commit": "b0d3a861bd85689d8ed73f0590c47963a7eb1bf9" },
   "neotest-vstest": { "branch": "main", "commit": "83cf9a1b6c86d7525801c2f63701ad81cea87f7c" },
+  "netcoredbg-macOS-arm64.nvim": { "branch": "main", "commit": "90c6fe7fa864cd753670fcd95b229da261760bc1" },
   "noice.nvim": { "branch": "main", "commit": "5099348591f7d3ba9e547b1e631c694c65bbe0b9" },
   "nui.nvim": { "branch": "main", "commit": "de740991c12411b663994b2860f1a4fd0937c130" },
   "nvim-cmp": { "branch": "main", "commit": "a7bcf1d88069fc67c9ace8a62ba480b8fe879025" },

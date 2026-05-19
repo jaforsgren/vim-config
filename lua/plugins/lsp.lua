@@ -1,27 +1,25 @@
+local lspKeySetup = function(client, bufnr)
+  local opts = { noremap = true, silent = true, buffer = bufnr }
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+end
+
 return {
   -- Mason for language servers / formatters
   {
     "mason-org/mason.nvim",
-  },
-
-  {
-    "iabdelkareem/csharp.nvim",
-    dependencies = {
-      "mason-org/mason.nvim", -- Required, automatically installs omnisharp
-      "mfussenegger/nvim-dap",
-      "Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
-    },
     config = function()
-      require("mason").setup() -- Mason setup must run before csharp, only if you want to use omnisharp
-      require("csharp").setup()
+      require("mason").setup()
     end,
   },
 
   -- LSP config
-   {
+  {
     "Cliffback/netcoredbg-macOS-arm64.nvim",
-    dependencies = { "mfussenegger/nvim-dap" }
-  }
+    dependencies = { "mfussenegger/nvim-dap" },
+  },
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -29,14 +27,6 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      local lspKeySetup = function(client, bufnr)
-        local opts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-      end
-
       -- TypeScript
       require("typescript").setup({
         server = {
@@ -64,8 +54,6 @@ return {
         },
       })
 
-      -- C# placeholder (actual debug via vsdbg)
-      -- Omnisharp can be added if desired, but we configure DAP separately
     end,
   },
 
