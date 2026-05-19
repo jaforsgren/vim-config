@@ -36,6 +36,15 @@
 --   }
 -- )
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cs",
+  callback = function()
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.expandtab = true
+  end,
+})
+
 local go_fmt_grp = vim.api.nvim_create_augroup("GoFormat", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",
@@ -44,3 +53,4 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
   group = go_fmt_grp,
 })
+
