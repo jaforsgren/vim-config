@@ -166,7 +166,7 @@ return {
   },
   -- mouse replacement
   {
-    "ggandor/leap.nvim",
+    "https://codeberg.org/andyg/leap.nvim.git",
     keys = {
       { "s", mode = { "n", "x", "o" }, desc = "Leap forward to" },
       { "S", mode = { "n", "x", "o" }, desc = "Leap backward to" },
@@ -332,6 +332,7 @@ return {
       require("nvim-search-and-replace").setup({
         ignore = {
           "**/node_modules/**",
+          "**/coveragereport/**",
           "**/.git/**",
           "**/.gitignore",
           "**/.gitmodules",

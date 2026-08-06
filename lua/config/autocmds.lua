@@ -45,6 +45,24 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- macOS requires ad-hoc code signatures on dlopen'd .so files (treesitter parsers).
+-- Re-sign after TSUpdate or Lazy updates to prevent SIGKILL on parser load.
+vim.api.nvim_create_autocmd("User", {
+  pattern = { "TSUpdate", "LazyUpdatePost" },
+  callback = function()
+    local parser_dirs = {
+      vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/parser",
+      vim.fn.stdpath("data") .. "/site/parser",
+    }
+    for _, dir in ipairs(parser_dirs) do
+      local files = vim.fn.glob(dir .. "/*.so", false, true)
+      for _, f in ipairs(files) do
+        vim.fn.jobstart({ "codesign", "--force", "-s", "-", f })
+      end
+    end
+  end,
+})
+
 local go_fmt_grp = vim.api.nvim_create_augroup("GoFormat", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.go",

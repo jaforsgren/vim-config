@@ -71,6 +71,7 @@ local ignoreList = {
   ".next/",
   "dist/",
   "coverage/",
+  "coveragereport",
   "node_modules/",
   "obj/",
   "_tmp/",
@@ -168,10 +169,16 @@ vim.keymap.set("v", "p", '"_dP', { desc = "Paste without changing register" })
 
 -- Navigate errors only (skips hints, info, warnings)
 vim.keymap.set("n", "gp", function()
-  vim.diagnostic.goto_next({ bufnr = 0, severity = { min = vim.diagnostic.severity.ERROR } })
+  vim.diagnostic.goto_next({
+    bufnr = 0,
+    severity = { min = vim.diagnostic.severity.ERROR },
+  })
 end, { desc = "Next error in buffer" })
 vim.keymap.set("n", "gP", function()
-  vim.diagnostic.goto_prev({ bufnr = 0, severity = { min = vim.diagnostic.severity.ERROR } })
+  vim.diagnostic.goto_prev({
+    bufnr = 0,
+    severity = { min = vim.diagnostic.severity.ERROR },
+  })
 end, { desc = "Previous error in buffer" })
 
 -- Yank relative path of current file (available in all modes)

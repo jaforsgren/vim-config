@@ -178,11 +178,87 @@ return {
     config = function()
       local dap = require("dap")
 
-      -- C# adapter
-      dap.adapters.coreclr = {
-        type = "executable",
-        command = os.getenv("HOME") .. "/vsdbg/vsdbg",
-        args = { "--interpreter=vscode" },
+      -- C# / .NET adapter (netcoredbg for macOS ARM64, fallback to vsdbg)
+      local netcoredbg_ok, netcoredbg = pcall(require, "netcoredbg-macOS-arm64")
+      if netcoredbg_ok then
+        netcoredbg.setup(dap)
+      else
+        dap.adapters.coreclr = {
+          type = "executable",
+          command = os.getenv("HOME") .. "/vsdbg/vsdbg",
+          args = { "--interpreter=vscode" },
+        }
+      end
+
+      -- Walk up from the current buffer's file to the nearest .csproj directory.
+      -- Falls back to cwd when no .csproj is found (e.g. when in a non-.cs buffer).
+      local function find_cs_project_dir()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        local dir = bufname ~= "" and vim.fn.fnamemodify(bufname, ":h") or vim.fn.getcwd()
+        while dir ~= "/" and dir ~= "" do
+          if #vim.fn.glob(dir .. "/*.csproj", false, true) > 0 then
+            return dir
+          end
+          local parent = vim.fn.fnamemodify(dir, ":h")
+          if parent == dir then break end
+          dir = parent
+        end
+        return vim.fn.getcwd()
+      end
+
+      local function find_cs_dll(project_dir)
+        local dlls = vim.tbl_filter(function(f)
+          return not f:match("/ref/") and not f:match("%.resources%.dll$")
+        end, vim.fn.glob(project_dir .. "/bin/Debug/**/*.dll", false, true))
+        if #dlls == 0 then
+          return vim.fn.input("Path to dll: ", project_dir .. "/bin/Debug/", "file")
+        end
+        table.sort(dlls, function(a, b) return vim.fn.getftime(a) > vim.fn.getftime(b) end)
+        return dlls[1]
+      end
+
+      -- Load environmentVariables from the first "Project" profile in
+      -- Properties/launchSettings.json so ASPNETCORE_ENVIRONMENT and other
+      -- vars set there are automatically picked up by the debugger.
+      local function env_from_launch_settings(project_dir)
+        local path = project_dir .. "/Properties/launchSettings.json"
+        if vim.fn.filereadable(path) == 0 then
+          return { ASPNETCORE_ENVIRONMENT = "Development" }
+        end
+        local ok, data = pcall(vim.fn.json_decode, table.concat(vim.fn.readfile(path), "\n"))
+        if not ok or not data or not data.profiles then
+          return { ASPNETCORE_ENVIRONMENT = "Development" }
+        end
+        for _, profile in pairs(data.profiles) do
+          if profile.commandName == "Project" then
+            local env = profile.environmentVariables or {}
+            env.ASPNETCORE_ENVIRONMENT = env.ASPNETCORE_ENVIRONMENT or "Development"
+            return env
+          end
+        end
+        return { ASPNETCORE_ENVIRONMENT = "Development" }
+      end
+
+      -- Setting cwd to the project directory ensures appsettings.json and
+      -- appsettings.{Environment}.json are found by the .NET runtime.
+      dap.configurations.cs = {
+        {
+          type = "coreclr",
+          name = "Launch .NET",
+          request = "launch",
+          program = function()
+            local dir = find_cs_project_dir()
+            return find_cs_dll(dir)
+          end,
+          cwd = function()
+            return find_cs_project_dir()
+          end,
+          env = function()
+            return env_from_launch_settings(find_cs_project_dir())
+          end,
+          stopAtEntry = false,
+          args = {},
+        },
       }
 
       -- Go DAP

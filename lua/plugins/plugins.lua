@@ -31,6 +31,7 @@ local plugins = {
         defaults = {
           file_ignore_patterns = { "%.git/", "^node_modules/", "*.uid" }, -- Ignore `.git/` but not other hidden files
           position = "float",
+          path_display = { "smart" },
           pickers = {
             find_files = {
               hidden = true, -- Include hidden files by default
